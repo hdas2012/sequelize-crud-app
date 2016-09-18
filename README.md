@@ -1,7 +1,9 @@
 # sequelize-crud-app
 A simple Node.js application with sequelize. Meant to get familiar with CRUD operations and other fundamentals in sequelize.
+
 # Prerequisite
 - Node.js and Postgres is installed
+
 # How to run the app
 - Clone this git repo
 - Navigate to `../bin/config.js`
