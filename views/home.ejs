@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title>
+			Home
+		</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<style>
+		</style>
+	</head>
+	<body>
+		<table class="table">
+			<tr>
+				<td><h1>1</h1></td>
+				<td>
+					<form action="/create-data" method="post" target="_blank">
+						Create new users:<br/>
+						<input type="hidden" name="dataType" value="user">
+						<textarea class="form-control" name="userData" rows="4" cols="50"><%= JSON.stringify(userData) %></textarea>
+						<br/>
+						<button class="btn btn-primary" type="submit">Create users</button>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td><h1>2</h1></td>
+				<td>
+					<form action="/create-data" method="post" target="_blank">
+						Create new groups:<br/>
+						<input type="hidden" name="dataType" value="group">
+						<textarea class="form-control" name="groupData" rows="4" cols="50"><%= JSON.stringify(groupData) %></textarea>
+						<br/>
+						<button class="btn btn-primary" type="submit">Create groups</button>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td><h1>3</h1></td>
+				<td>
+					<a target="_blank" href="/view-users"><button class="btn" type="submit">View users</button></a>
+				</td>
+			</tr>
+			<tr>
+				<td><h1>4</h1></td>
+				<td>
+					Example of an advanced query:<br/>
+					<a target="_blank" href="/complex-query"><button class="btn" type="submit">Run</button></a>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

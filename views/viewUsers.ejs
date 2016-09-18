@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<title>
+			View users
+		</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.5.0/featherlight.min.js"></script>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.5.0/featherlight.min.css">
+		
+		<style>
+			select{
+				width: 200px!important;
+			}
+			.search-form{
+				margin-left: 20px;
+			}
+			.search-form .email{
+				width: 325px!important;
+			}
+			.display-none{
+				display: none;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var url = window.location.href;
+				$("#states").change(function(){
+					window.location.href = "/view-users?state="+$('#states :selected').text();
+				});
+				<%if(req.query.state!=undefined){%>
+					$("#states").prop('disabled', 'disabled');
+					$("#states").val('<%=req.query.state%>');
+				<%}%>
+				$("#states option").each(function(){
+					$(this).siblings("[value='"+ this.value+"']").remove();
+				});
+				$('.update').featherlight($(".update-form"), {
+					afterOpen: function(event){
+					    $(".update-form").eq(1).show();
+					}
+				});
+				$(".update").click(function(){
+					var targetRow = $(this).parent().parent();
+					$(".first-name-u").val($(targetRow).find("td:eq(0)").text());
+					$(".last-name-u").val($(targetRow).find("td:eq(1)").text());
+					$(".address-u").val($(targetRow).find("td:eq(4)").text());
+					$(".email-u").val($(targetRow).find("td:eq(2)").text());
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<table class="top-bar">
+			<tr>
+				<td>
+					<select class="form-control" id="states">
+						<option>Filter by state</option>
+						<%for(var i=0; i<users.length; i++){%>
+							<option value="<%=users[i].state %>"><%=users[i].state %></option>
+						<%}%>
+					</select>
+				</td>
+				<td style="padding-top: 13px;">
+					<form class="search-form form-inline" action="/view-users">
+						<input value="<%=req.query.email%>" placeholder="Search by email" type="text" name="email" class="form-control email">
+						<button class="btn btn-primary">Search</button>
+						<a href="/view-users"><button type="button" class="btn btn-success">View all</button></a>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<table class="table">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Age</th>
+				<th>Address</th>
+				<th>Date joined</th>
+				<th>Group Name</th>
+			</tr>
+			<%for(var i=0; i<users.length; i++){%>
+				<tr>
+					<td><%=users[i].firstName %></td>
+					<td><%=users[i].lastName %></td>
+					<td><%=users[i].email %></td>
+					<td><%=users[i].age %></td>
+					<td><%=users[i].address %></td>
+					<td><%=users[i].dateJoined.toLocaleString() %></td>
+					<td><%=users[i].group.groupName %></td>
+					<td><button class="btn update">Update</button></td>
+					<td><a href="/delete-user?email=<%=encodeURIComponent(users[i].email)%>"><button class="btn btn-danger">Delete</button></a></td>
+				</tr>
+			<%}%>
+		</table>
+		<div class="update-form display-none">
+			<form method="post" action="/view-users">
+				<input type="hidden" name="email" class="email-u"/>
+			  <div class="form-group">
+			  	<label for="email">First name</label>
+			    <input type="text" name="firstName" class="form-control first-name-u">
+			  </div>
+			  <div class="form-group">
+			  	<label for="email">Last name</label>
+ 			    <input type="text" name="lastName" class="form-control last-name-u">
+			  </div>
+			  <div class="form-group">
+			  	<label for="email">State, country</label>
+			    <input type="text" name="address" class="form-control address-u">
+			  </div>
+			  <button type="submit" class="btn btn-default">Update</button>
+			</form>
+		</div>
+	</body>
+</html>
